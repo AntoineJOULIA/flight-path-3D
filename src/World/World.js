@@ -9,8 +9,8 @@ import { createControls } from "./systems/controls";
 import { createTrajectory } from "./components/trajectory";
 
 const cityPairs = [
-  // [37.77397, -122.43129, 22.54554, 114.0683],
-  // [47.77397, -110.43129, 22.54554, 114.0683],
+  [37.77397, -122.43129, 22.54554, 114.0683],
+  [47.77397, -110.43129, 22.54554, 114.0683],
   [48.72333, 2.37944, 43.6291, 1.36382],
 ];
 
@@ -40,6 +40,7 @@ class World {
     for (const cityPair of cityPairs) {
       const trajectory = createTrajectory(cityPair);
       scene.add(trajectory);
+      loop.updatables.push(trajectory);
     }
 
     const resizer = new Resizer(container, camera, renderer);

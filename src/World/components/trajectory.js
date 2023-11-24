@@ -1,15 +1,16 @@
-import { AdditiveBlending, BufferAttribute, BufferGeometry, Line, MeshBasicMaterial } from "three";
+import { AdditiveBlending, BufferAttribute, BufferGeometry, Line, LineDashedMaterial, MeshBasicMaterial } from "three";
 import { createSplineFromCoords } from "../systems/utils";
 
 const CURVE_SEGMENTS = 32;
 
 function createTrajectory(coords) {
   const geometry = new BufferGeometry();
-  const material = new MeshBasicMaterial({
+  const material = new LineDashedMaterial({
+    dashSize: 1, // updated in the render loop
+    gapSize: 10000, // a big number so only 1 dash is rendered
     blending: AdditiveBlending,
     opacity: 0.6,
     transparent: true,
-    // color: 0xe43c59,
     color: "skyblue",
   });
 
@@ -29,6 +30,14 @@ function createTrajectory(coords) {
   curveGeometry.setDrawRange(0, CURVE_SEGMENTS);
 
   const trajectory = new Line(curveGeometry, material);
+  trajectory.computeLineDistances();
+  const lineLength =
+    curveGeometry.attributes.lineDistance.array[curveGeometry.attributes.lineDistance.array.length - 1];
+
+  trajectory.tick = (delta, fraction) => {
+    material.dashSize = fraction * lineLength;
+  };
+
   return trajectory;
 }
 
