@@ -21,6 +21,27 @@ h1 {
   z-index: 1;
 }
 
+button {
+  position: absolute;
+  z-index: 1;
+  top: 1em;
+  left: 1em;
+  background-color: skyblue;
+  border: none;
+  padding-block: 0.5em;
+  padding-inline: 1em;
+  border-radius: 0.25em;
+  min-width: 25ch;
+  opacity: 0.9;
+}
+button:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+button:active {
+  transform: translateY(2px);
+}
+
 #scene-container {
   /* tell our scene container to take up the full page */
   position: absolute;
